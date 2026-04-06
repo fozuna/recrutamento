@@ -3,6 +3,10 @@ class Candidatura
 {
     public static function create(array $data): int
     {
+        $telefone = Phone::normalize((string)($data['telefone'] ?? ''));
+        if ($telefone === null) {
+            throw new InvalidArgumentException('Telefone inválido. Informe 11 dígitos (DDD + número).');
+        }
         self::ensureCpfColumn();
         self::ensureStageColumn();
         self::ensureIndicacaoColumns();
@@ -11,13 +15,13 @@ class Candidatura
             $sql = 'INSERT INTO candidaturas (vaga_id, nome, email, telefone, cpf, cargo_pretendido, experiencia, pdf_path, status, indicacao_colaborador, indicacao_colaborador_nome) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
             $stmt = Database::conn()->prepare($sql);
             $stmt->execute([
-                (int)$data['vaga_id'], $data['nome'], $data['email'], $data['telefone'], $data['cpf'], $data['cargo_pretendido'], $data['experiencia'], $data['pdf_path'], $data['status'] ?? 'novo', (int)($data['indicacao_colaborador'] ?? 0), (string)($data['indicacao_colaborador_nome'] ?? '')
+                (int)$data['vaga_id'], $data['nome'], $data['email'], $telefone, $data['cpf'], $data['cargo_pretendido'], $data['experiencia'], $data['pdf_path'], $data['status'] ?? 'novo', (int)($data['indicacao_colaborador'] ?? 0), (string)($data['indicacao_colaborador_nome'] ?? '')
             ]);
         } else {
             $sql = 'INSERT INTO candidaturas (vaga_id, nome, email, telefone, cpf, cargo_pretendido, experiencia, pdf_path, status, indicacao_colaborador) VALUES (?,?,?,?,?,?,?,?,?,?)';
             $stmt = Database::conn()->prepare($sql);
             $stmt->execute([
-                (int)$data['vaga_id'], $data['nome'], $data['email'], $data['telefone'], $data['cpf'], $data['cargo_pretendido'], $data['experiencia'], $data['pdf_path'], $data['status'] ?? 'novo', (int)($data['indicacao_colaborador'] ?? 0)
+                (int)$data['vaga_id'], $data['nome'], $data['email'], $telefone, $data['cpf'], $data['cargo_pretendido'], $data['experiencia'], $data['pdf_path'], $data['status'] ?? 'novo', (int)($data['indicacao_colaborador'] ?? 0)
             ]);
         }
         return (int)Database::conn()->lastInsertId();
@@ -232,11 +236,11 @@ class Candidatura
     public static function statusMap(): array
     {
         return [
-            'novo' => ['label' => 'Novo', 'bg' => '#edede9', 'text' => '#00222C'],
-            'em_analise' => ['label' => 'Em análise', 'bg' => '#669bbc', 'text' => '#ffffff'],
-            'entrevista' => ['label' => 'Entrevista', 'bg' => '#003049', 'text' => '#ffffff'],
-            'aprovado' => ['label' => 'Aprovado', 'bg' => '#00222C', 'text' => '#ffffff'],
-            'dispensado' => ['label' => 'Dispensado', 'bg' => '#c1121f', 'text' => '#ffffff'],
+            'novo' => ['label' => 'Novo', 'bg' => '#3e5c76', 'text' => '#ffffff'],
+            'em_analise' => ['label' => 'Em análise', 'bg' => '#1d2d44', 'text' => '#ffffff'],
+            'entrevista' => ['label' => 'Entrevista', 'bg' => '#0d1321', 'text' => '#ffffff'],
+            'aprovado' => ['label' => 'Aprovado', 'bg' => '#1d2d44', 'text' => '#ffffff'],
+            'dispensado' => ['label' => 'Dispensado', 'bg' => '#0d1321', 'text' => '#ffffff'],
         ];
     }
 
@@ -619,27 +623,20 @@ class Candidatura
         $todayObj = $today ?? new DateTimeImmutable('today');
         $pago = (int)($cand['indicacao_pagamento_realizado'] ?? 0) === 1;
         if ($pago) {
-            return ['color' => 'blue', 'label' => 'Pago', 'dot' => 'bg-blue-500', 'text' => 'text-blue-700'];
+            return ['color' => 'ctgreen', 'label' => 'Pago', 'dot' => 'bg-ctgreen', 'text' => 'text-ctgreen'];
         }
         $fimExpRaw = trim((string)($cand['indicacao_data_fim_experiencia'] ?? ''));
         if ($fimExpRaw === '') {
-            return ['color' => 'green', 'label' => 'Pendente', 'dot' => 'bg-green-500', 'text' => 'text-green-700'];
+            return ['color' => 'ctlight', 'label' => 'Pendente', 'dot' => 'bg-ctlight', 'text' => 'text-ctlight'];
         }
         $fimExp = DateTimeImmutable::createFromFormat('Y-m-d', $fimExpRaw);
         if (!$fimExp) {
-            return ['color' => 'green', 'label' => 'Pendente', 'dot' => 'bg-green-500', 'text' => 'text-green-700'];
+            return ['color' => 'ctlight', 'label' => 'Pendente', 'dot' => 'bg-ctlight', 'text' => 'text-ctlight'];
         }
         if ($todayObj <= $fimExp) {
-            return ['color' => 'green', 'label' => 'Pendente', 'dot' => 'bg-green-500', 'text' => 'text-green-700'];
+            return ['color' => 'ctlight', 'label' => 'Pendente', 'dot' => 'bg-ctlight', 'text' => 'text-ctlight'];
         }
-        $diasApos = (int)$fimExp->diff($todayObj)->days;
-        if ($diasApos <= 3) {
-            return ['color' => 'red', 'label' => 'Pendente', 'dot' => 'bg-red-500', 'text' => 'text-red-700'];
-        }
-        if ($diasApos <= 7) {
-            return ['color' => 'yellow', 'label' => 'Pendente', 'dot' => 'bg-yellow-400', 'text' => 'text-yellow-700'];
-        }
-        return ['color' => 'green', 'label' => 'Pendente', 'dot' => 'bg-green-500', 'text' => 'text-green-700'];
+        return ['color' => 'ctdark', 'label' => 'Pendente', 'dot' => 'bg-ctdark', 'text' => 'text-ctdark'];
     }
 
     private static function parseBrDate(string $value): ?string

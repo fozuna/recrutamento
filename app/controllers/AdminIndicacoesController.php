@@ -173,7 +173,7 @@ class AdminIndicacoesController extends Controller
             $periodo = 'Todos';
         }
         $header = [
-            'CT Price RH - Programa de Indicações',
+            'TRAXTER. - Recrutamento e Seleção RH - Programa de Indicações',
             'Período: ' . $periodo,
             'Gerado em: ' . date('d/m/Y H:i')
         ];
@@ -197,7 +197,7 @@ class AdminIndicacoesController extends Controller
                 $this->truncateText((string)($row['stage_nome'] ?? '-'), 12),
                 $this->truncateText((string)($row['cargo_pretendido'] ?? '-'), 16),
                 (string)($row['cpf'] ?? '-'),
-                $this->truncateText((string)($row['telefone'] ?? '-'), 12),
+                $this->truncateText(Phone::format((string)($row['telefone'] ?? '')), 15),
                 $this->truncateText((string)($row['email'] ?? '-'), 24)
             ];
             $lines[] = implode(' | ', $line);
@@ -267,7 +267,7 @@ class AdminIndicacoesController extends Controller
                     [(string)($row['stage_nome'] ?? '-'), $style],
                     [(string)($row['cargo_pretendido'] ?? '-'), $style],
                     [(string)($row['cpf'] ?? '-'), $style],
-                    [(string)($row['telefone'] ?? '-'), $style],
+                    [Phone::format((string)($row['telefone'] ?? '')), $style],
                     [(string)($row['email'] ?? '-'), $style]
                 ]);
                 $rowIndex++;

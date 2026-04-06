@@ -5,12 +5,12 @@
   <div class="hidden lg:flex lg:w-1/2 xl:w-2/3 relative" style="background-color: #1d2d44;">
     <!-- Main Logo - Centered -->
     <div class="flex items-center justify-center w-full">
-      <img src="<?= $base ?>/assets/logo.png" alt="CT Price" class="w-64 h-auto">
+      <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="w-64 h-auto">
     </div>
     
     <!-- Isotipo - Bottom Left -->
     <div class="absolute bottom-0 left-0">
-      <img src="<?= $base ?>/assets/Isotipolinear.png" alt="CT Price" class="w-60 opacity-50">
+      <img src="<?= $base ?>/assets/Isotipolinear.png" alt="TRAXTER. - Recrutamento e Seleção" class="w-60 opacity-50">
     </div>
   </div>
 
@@ -21,7 +21,7 @@
         <div class="text-center mb-8">
           <!-- Mobile Logo -->
           <div class="lg:hidden mb-6">
-            <img src="<?= $base ?>/assets/logo.png" alt="CT Price" class="w-60 h-auto mx-auto">
+            <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="w-60 h-auto mx-auto">
           </div>
           <h2 class="text-2xl font-semibold text-ctpblue">Acesso ao Painel</h2>
         </div>
@@ -32,7 +32,7 @@
           </div>
         <?php endif; ?>
         <?php if (!empty($success)): ?>
-          <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+          <div class="mb-6 bg-ctlight border border-ctdark text-white px-4 py-3 rounded-lg">
             <?= Security::e($success) ?>
           </div>
         <?php endif; ?>

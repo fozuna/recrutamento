@@ -59,8 +59,8 @@ try {
         ('Novo', 1, '#3b82f6'), 
         ('Triagem', 2, '#f59e0b'), 
         ('Entrevista', 3, '#8b5cf6'), 
-        ('Proposta', 4, '#10b981'), 
-        ('Contratado', 5, '#059669'), 
+        ('Proposta', 4, '#1d2d44'), 
+        ('Contratado', 5, '#1d2d44'), 
         ('Rejeitado', 6, '#ef4444')");
         echo "Stages inseridos.\n";
     }

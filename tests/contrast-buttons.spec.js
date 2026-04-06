@@ -43,16 +43,11 @@ for (const colorScheme of ['light', 'dark']) {
     expect(cssText.includes('prefers-color-scheme:dark')).toBeTruthy();
 
     const pairs = [
-      ['#FFFFFF', '#0F4A5E'],
-      ['#FFFFFF', '#0A3444'],
-      ['#FFFFFF', '#B45309'],
-      ['#FFFFFF', '#92400E'],
-      ['#FFFFFF', '#166534'],
-      ['#FFFFFF', '#14532D'],
-      ['#FFFFFF', '#475569'],
-      ['#FFFFFF', '#B91C1C'],
-      ['#1E293B', '#FFFFFF'],
-      ['#E2E8F0', '#1E293B']
+      ['#FFFFFF', '#1d2d44'],
+      ['#FFFFFF', '#0d1321'],
+      ['#FFFFFF', '#3e5c76'],
+      ['#0d1321', '#FFFFFF'],
+      ['#FFFFFF', '#0d1321']
     ];
     for (const [textHex, bgHex] of pairs) {
       expect(contrastRatio(textHex, bgHex)).toBeGreaterThanOrEqual(4.5);

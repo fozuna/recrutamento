@@ -3,7 +3,14 @@
 <div class="bg-white shadow rounded p-6">
   <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-semibold text-ctpblue"><?= Security::e($c['nome']) ?></h2>
-      <span class="px-3 py-1 rounded text-white text-sm font-semibold" style="background-color: <?= $c['stage_cor'] ?? '#ccc' ?>">
+      <?php
+      $stageColor = $c['stage_cor'] ?? '#ccc';
+      $stageColorNormalized = strtolower(trim((string)$stageColor));
+      if (in_array($stageColorNormalized, ['#10b981', '#059669', '#10e36b', '#057038', '#166534', '#14532d'], true)) {
+          $stageColor = '#1d2d44';
+      }
+      ?>
+      <span class="px-3 py-1 rounded text-white text-sm font-semibold" style="background-color: <?= $stageColor ?>">
           <?= Security::e($c['stage_nome'] ?? 'Novo') ?>
       </span>
   </div>
@@ -15,7 +22,7 @@
           <?php endif; ?>
           <p class="mt-2"><strong>Cargo pretendido:</strong> <?= Security::e($c['cargo_pretendido'] ?? $c['vaga_titulo'] ?? '') ?></p>
           <p class="mt-2"><strong>E-mail:</strong> <?= Security::e($c['email']) ?></p>
-          <p class="mt-2"><strong>Telefone:</strong> <?= Security::e($c['telefone']) ?></p>
+          <p class="mt-2"><strong>Telefone:</strong> <?= Security::e(Phone::format($c['telefone'] ?? '')) ?></p>
           <p class="mt-2"><strong>Vaga:</strong> <?= Security::e($c['vaga_titulo'] ?? '-') ?></p>
       </div>
       <div>
@@ -54,8 +61,8 @@
                <?php endif; ?>
                
                <!-- Placeholder AI Analysis -->
-               <button type="button" data-ai-analyze="1" class="ml-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                   <svg class="mr-2 -ml-1 h-5 w-5 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <button type="button" data-ai-analyze="1" class="ml-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-ctpblue bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ctgreen">
+                  <svg class="mr-2 -ml-1 h-5 w-5 text-ctlight" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                    </svg>
                    Analisar com IA
@@ -71,7 +78,7 @@
         <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Etapa do Processo</label>
-              <select name="stage_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border">
+              <select name="stage_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-ctgreen focus:border-ctgreen sm:text-sm rounded-md border">
                 <?php foreach ($stages as $st): ?>
                   <option value="<?= $st['id'] ?>" <?= ($c['stage_id'] ?? 1) == $st['id'] ? 'selected' : '' ?>>
                     <?= Security::e($st['nome']) ?>
@@ -93,7 +100,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700">Observações / Nota do Recrutador</label>
-          <textarea name="observacoes" rows="3" class="mt-1 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md border" placeholder="Adicione uma nota sobre esta etapa..."></textarea>
+          <textarea name="observacoes" rows="3" class="mt-1 shadow-sm focus:ring-ctgreen focus:border-ctgreen block w-full sm:text-sm border-gray-300 rounded-md border" placeholder="Adicione uma nota sobre esta etapa..."></textarea>
         </div>
         <div class="flex items-center justify-end">
           <a href="<?= $base ?>/admin/candidaturas" class="text-gray-600 hover:text-gray-900 mr-4">Voltar</a>
@@ -134,7 +141,7 @@
             <?php endif; ?>
             <div class="relative flex space-x-3">
               <div>
-                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                <span class="h-8 w-8 rounded-full bg-ctgreen flex items-center justify-center ring-8 ring-white">
                   <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                   </svg>

@@ -3,7 +3,7 @@
     
     <form method="GET" action="<?= $base ?>/admin/pipeline" class="flex items-center space-x-2">
         <label for="vaga_id" class="text-sm font-medium text-gray-700">Filtrar por Vaga:</label>
-        <select name="vaga_id" id="vaga_id" data-autosubmit="1" class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <select name="vaga_id" id="vaga_id" data-autosubmit="1" class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ctgreen">
             <option value="">Todas as Vagas</option>
             <?php foreach ($vagas as $v): ?>
                 <option value="<?= $v['id'] ?>" <?= ($selectedVaga == $v['id']) ? 'selected' : '' ?>>
@@ -16,7 +16,14 @@
 
 <div class="flex overflow-x-auto pb-4 space-x-4 h-[calc(100vh-12rem)]">
     <?php foreach ($kanban as $stageId => $col): ?>
-        <div class="flex-shrink-0 w-80 bg-gray-100 rounded-lg shadow-sm flex flex-col h-full border-t-4" data-kanban-board-column="1" style="border-color: <?= $col['stage']['cor'] ?>">
+        <?php
+        $borderColor = $col['stage']['cor'] ?? '#cccccc';
+        $borderColorNormalized = strtolower(trim((string)$borderColor));
+        if (in_array($borderColorNormalized, ['#10b981', '#059669', '#10e36b', '#057038', '#166534', '#14532d'], true)) {
+            $borderColor = '#1d2d44';
+        }
+        ?>
+        <div class="flex-shrink-0 w-80 bg-gray-100 rounded-lg shadow-sm flex flex-col h-full border-t-4" data-kanban-board-column="1" style="border-color: <?= $borderColor ?>">
             <div class="p-3 bg-white rounded-t border-b flex justify-between items-center sticky top-0 z-10">
                 <h3 class="font-semibold text-gray-700"><?= htmlspecialchars($col['stage']['nome']) ?></h3>
                 <span class="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded-full" data-kanban-count="1"><?= count($col['items']) ?></span>
@@ -39,7 +46,7 @@
                         </p>
                         
                         <div class="flex justify-between items-center mt-3">
-                            <a href="<?= $base ?>/admin/candidaturas/<?= $c['id'] ?>" class="text-xs text-blue-600 hover:text-blue-800 hover:underline">Ver detalhes</a>
+                            <a href="<?= $base ?>/admin/candidaturas/<?= $c['id'] ?>" class="text-xs text-ctgreen hover:text-ctdark hover:underline">Ver detalhes</a>
                             <span class="text-xs text-gray-400"><?= date('d/m', strtotime($c['created_at'])) ?></span>
                         </div>
                     </div>

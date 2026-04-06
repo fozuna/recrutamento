@@ -19,7 +19,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
     <div class="mb-4 rounded border border-red-200 bg-red-50 text-red-700 px-4 py-2 text-sm"><?= Security::e($flashError) ?></div>
   <?php endif; ?>
   <?php if (!empty($flashSuccess)): ?>
-    <div class="mb-4 rounded border border-green-200 bg-green-50 text-green-700 px-4 py-2 text-sm"><?= Security::e($flashSuccess) ?></div>
+    <div class="mb-4 rounded border border-ctdark bg-ctlight text-white px-4 py-2 text-sm"><?= Security::e($flashSuccess) ?></div>
   <?php endif; ?>
   <div class="flex items-center justify-between gap-3 flex-wrap">
     <h2 class="text-xl font-semibold text-ctpblue">Programa de Indicações</h2>
@@ -65,7 +65,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
     <div class="md:col-span-6 flex gap-2 flex-wrap">
       <button class="bg-ctgreen text-white px-4 py-2 rounded hover:bg-ctdark text-sm">Filtrar</button>
       <a href="<?= $queryBase ?>" class="px-4 py-2 rounded border text-sm text-gray-600 hover:bg-gray-50">Limpar</a>
-      <a href="<?= $queryBase . '/export?' . http_build_query(array_merge($params, ['format' => 'excel'])) ?>" class="px-4 py-2 rounded border text-sm text-indigo-700 border-indigo-200 hover:bg-indigo-50">Exportar Excel</a>
+      <a href="<?= $queryBase . '/export?' . http_build_query(array_merge($params, ['format' => 'excel'])) ?>" class="px-4 py-2 rounded border text-sm text-ctgreen border-ctgreen hover:bg-ctgreen hover:text-white">Exportar Excel</a>
     </div>
   </form>
 
@@ -97,13 +97,18 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
         }
         $pago = (int)($item['indicacao_pagamento_realizado'] ?? 0) === 1;
         $signal = $item['payment_signal'] ?? ['dot' => 'bg-gray-400', 'text' => 'text-gray-700'];
+        $stageCor = $item['stage_cor'] ?? '#6b7280';
+        $stageCorNormalized = strtolower(trim((string)$stageCor));
+        if (in_array($stageCorNormalized, ['#10b981', '#059669', '#10e36b', '#057038', '#166534', '#14532d'], true)) {
+            $stageCor = '#1d2d44';
+        }
         ?>
         <tr class="hover:bg-gray-50">
           <td class="p-3 font-medium text-gray-900"><?= Security::e($item['nome']) ?></td>
           <td class="p-3 text-gray-700"><?= Security::e($item['indicacao_colaborador_nome'] ?? '-') ?></td>
           <td class="p-3 text-gray-700"><?= Security::e($item['vaga_titulo'] ?? '-') ?></td>
           <td class="p-3 text-gray-500"><?= !empty($item['created_at']) ? date('d/m/Y H:i', strtotime((string)$item['created_at'])) : '-' ?></td>
-          <td class="p-3"><span class="px-2 py-1 rounded text-xs font-semibold text-white" style="background-color: <?= Security::e($item['stage_cor'] ?? '#6b7280') ?>"><?= Security::e($item['stage_nome'] ?? 'Novo') ?></span></td>
+          <td class="p-3"><span class="px-2 py-1 rounded text-xs font-semibold text-white" style="background-color: <?= Security::e($stageCor) ?>"><?= Security::e($item['stage_nome'] ?? 'Novo') ?></span></td>
           <td class="p-3 text-gray-700"><?= !empty($contratacao) ? date('d/m/Y', strtotime((string)$contratacao)) : '-' ?></td>
           <td class="p-3 text-gray-700"><?= $dias !== null ? $dias . ' dias' : '-' ?></td>
           <td class="p-3 text-gray-700"><?= Security::e($expStatus) ?></td>
@@ -114,7 +119,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
             </span>
           </td>
           <td class="p-3 whitespace-nowrap">
-            <a href="<?= $base ?>/admin/candidaturas/<?= (int)$item['id'] ?>" class="text-blue-600 hover:text-blue-900 font-medium">Detalhes</a>
+            <a href="<?= $base ?>/admin/candidaturas/<?= (int)$item['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Detalhes</a>
             <?php if (!$pago): ?>
               <form action="<?= $base ?>/admin/indicacoes/<?= (int)$item['id'] ?>/pagar" method="post" class="inline ml-2" data-pagamento-form="<?= (int)$item['id'] ?>">
                 <input type="hidden" name="csrf" value="<?= Security::e($csrf) ?>">
@@ -127,7 +132,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
                 <input type="hidden" name="csrf" value="<?= Security::e($csrf) ?>">
                 <input type="hidden" name="payment_date_edit" value="" data-payment-edit-date-hidden="<?= (int)$item['id'] ?>">
                 <input type="hidden" name="payment_edit_reason" value="" data-payment-edit-reason-hidden="<?= (int)$item['id'] ?>">
-                <button type="button" class="text-indigo-600 hover:text-indigo-800 font-medium" data-pagamento-edit-open="<?= (int)$item['id'] ?>">Editar data</button>
+                <button type="button" class="text-ctgreen hover:text-ctdark font-medium" data-pagamento-edit-open="<?= (int)$item['id'] ?>">Editar data</button>
               </form>
             <?php endif; ?>
           </td>
@@ -165,7 +170,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
         <div class="mt-1 text-xs text-gray-500">Experiência: <?= Security::e($expStatus) ?></div>
         <div class="mt-1 text-xs <?= Security::e($signal['text'] ?? 'text-gray-700') ?>">Pagamento: <span class="inline-flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full <?= Security::e($signal['dot'] ?? 'bg-gray-400') ?>"></span><?= $pago ? 'Pago em ' . date('d/m/Y', strtotime((string)$item['indicacao_data_pagamento'])) : 'Pendente' ?></span></div>
         <div class="mt-3 flex gap-3 text-sm">
-          <a href="<?= $base ?>/admin/candidaturas/<?= (int)$item['id'] ?>" class="text-blue-600 hover:text-blue-900 font-medium">Detalhes</a>
+          <a href="<?= $base ?>/admin/candidaturas/<?= (int)$item['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Detalhes</a>
           <?php if (!$pago): ?>
             <form action="<?= $base ?>/admin/indicacoes/<?= (int)$item['id'] ?>/pagar" method="post" data-pagamento-form="<?= (int)$item['id'] ?>">
               <input type="hidden" name="csrf" value="<?= Security::e($csrf) ?>">
@@ -178,7 +183,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
               <input type="hidden" name="csrf" value="<?= Security::e($csrf) ?>">
               <input type="hidden" name="payment_date_edit" value="" data-payment-edit-date-hidden="<?= (int)$item['id'] ?>">
               <input type="hidden" name="payment_edit_reason" value="" data-payment-edit-reason-hidden="<?= (int)$item['id'] ?>">
-              <button type="button" class="text-indigo-600 hover:text-indigo-800 font-medium" data-pagamento-edit-open="<?= (int)$item['id'] ?>">Editar data</button>
+              <button type="button" class="text-ctgreen hover:text-ctdark font-medium" data-pagamento-edit-open="<?= (int)$item['id'] ?>">Editar data</button>
             </form>
           <?php endif; ?>
         </div>
@@ -206,15 +211,15 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
   .ind-modal-overlay { position: fixed; inset: 0; z-index: 50; display: none; align-items: flex-end; justify-content: center; background: rgba(0, 0, 0, 0.45); padding: 4vw; }
   .ind-modal-overlay.is-open { display: flex; }
   .ind-modal-panel { width: 100%; max-width: 42rem; max-height: 88vh; overflow-y: auto; background: #fff; border-radius: 1rem; box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18); padding: 1rem; }
-  .ind-modal-title { color: #00222c; font-size: 1.25rem; line-height: 1.4; font-weight: 700; }
+  .ind-modal-title { color: #0d1321; font-size: 1.25rem; line-height: 1.4; font-weight: 700; }
   .ind-modal-text { color: #4b5563; font-size: 0.9375rem; margin-top: 0.25rem; }
   .ind-modal-field { margin-top: 0.75rem; }
   .ind-modal-input { width: 100%; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.75rem; font-size: 1rem; min-height: 2.75rem; }
   .ind-modal-actions { position: sticky; bottom: 0; display: grid; grid-template-columns: 1fr; gap: 0.5rem; background: #fff; padding-top: 0.75rem; margin-top: 0.75rem; }
   .ind-modal-btn { min-height: 2.75rem; padding: 0.625rem 1rem; border-radius: 0.5rem; font-size: 0.9375rem; font-weight: 600; }
   .ind-modal-btn-secondary { border: 1px solid #9ca3af; color: #1f2937; background: #fff; }
-  .ind-modal-btn-primary-green { color: #00222c; background: #10e36b; }
-  .ind-modal-btn-primary-indigo { color: #fff; background: #4f46e5; }
+  .ind-modal-btn-primary-green { color: #fff; background: #1d2d44; }
+  .ind-modal-btn-primary-indigo { color: #fff; background: #1d2d44; }
   @media (min-width: 48rem) {
     .ind-modal-overlay { align-items: center; padding: 2rem; }
     .ind-modal-panel { padding: 1.25rem 1.5rem; max-height: 84vh; }

@@ -57,7 +57,8 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-ctpblue">Telefone</label>
-          <input type="tel" name="telefone" required class="mt-1 w-full border rounded px-3 py-2 shadow-sm focus:border-ctgreen focus:ring-1 focus:ring-ctgreen" />
+          <input type="tel" name="telefone" required data-phone-input="1" maxlength="15" placeholder="(00) 00000-0000" class="mt-1 w-full border rounded px-3 py-2 shadow-sm focus:border-ctgreen focus:ring-1 focus:ring-ctgreen" />
+          <div data-phone-error="invalid" class="text-red-600 text-sm mt-1 hidden">Telefone inválido. Informe 11 dígitos (DDD + número).</div>
         </div>
       </div>
       <div>

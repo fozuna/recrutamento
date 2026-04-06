@@ -46,13 +46,20 @@ class HomeController extends Controller
         // Sanitização
         $nome = Security::sanitizeString($_POST['nome'] ?? '');
         $email = Security::sanitizeString($_POST['email'] ?? '');
-        $telefone = Security::sanitizeString($_POST['telefone'] ?? '');
+        $telefoneRaw = Security::sanitizeString($_POST['telefone'] ?? '');
         $cpf = preg_replace('/\D/', '', Security::sanitizeString($_POST['cpf'] ?? ''));
         $cargo = Security::sanitizeString($_POST['cargo_pretendido'] ?? '');
         $exp = Security::sanitizeString($_POST['experiencia'] ?? '');
-        if (!$nome || !$email || !$telefone || !$cpf || !$cargo || !$exp) {
+        if (!$nome || !$email || !$telefoneRaw || !$cpf || !$cargo || !$exp) {
             http_response_code(422);
             echo 'Campos obrigatórios não preenchidos.';
+            return;
+        }
+
+        $telefone = Phone::normalize($telefoneRaw);
+        if ($telefone === null) {
+            http_response_code(422);
+            echo 'Telefone inválido. Informe 11 dígitos (DDD + número).';
             return;
         }
         // Validação do CPF
@@ -89,7 +96,7 @@ class HomeController extends Controller
         // Notificação RH
         $sent = Mailer::notifyHR(
             'Nova candidatura recebida',
-            "Vaga: {$vaga['titulo']}\nNome: {$nome}\nE-mail: {$email}\nTelefone: {$telefone}\n"
+            "Vaga: {$vaga['titulo']}\nNome: {$nome}\nE-mail: {$email}\nTelefone: " . Phone::format($telefone) . "\n"
         );
         $this->view->render('home/confirm', [
             'vaga' => $vaga,

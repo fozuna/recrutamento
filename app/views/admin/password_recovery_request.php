@@ -7,7 +7,7 @@
       <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg"><?= Security::e($error) ?></div>
     <?php endif; ?>
     <?php if (!empty($success)): ?>
-      <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg"><?= Security::e($success) ?></div>
+      <div class="mb-4 bg-ctlight border border-ctdark text-white px-4 py-3 rounded-lg"><?= Security::e($success) ?></div>
     <?php endif; ?>
     <form action="<?= $base ?>/admin/forgot-password" method="post" class="space-y-4">
       <input type="hidden" name="csrf" value="<?= Security::e($csrf ?? '') ?>">
@@ -22,4 +22,3 @@
     </form>
   </div>
 </div>
-

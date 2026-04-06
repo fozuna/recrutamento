@@ -25,7 +25,7 @@ $contratadoId = (int)$stageStmt->fetchColumn();
 if ($contratadoId <= 0) {
     $ordem = (int)$pdo->query('SELECT COALESCE(MAX(ordem),0)+1 FROM pipeline_stages')->fetchColumn();
     $ins = $pdo->prepare('INSERT INTO pipeline_stages (nome, ordem, cor) VALUES (?,?,?)');
-    $ins->execute(['Contratado', $ordem, '#10b981']);
+    $ins->execute(['Contratado', $ordem, '#1d2d44']);
     $contratadoId = (int)$pdo->lastInsertId();
 }
 
@@ -141,28 +141,28 @@ if (($old['ok'] ?? true) !== false) {
 }
 
 $signalBlue = Candidatura::paymentSignal(['indicacao_pagamento_realizado' => 1, 'indicacao_data_fim_experiencia' => date('Y-m-d')]);
-if (($signalBlue['color'] ?? '') !== 'blue') {
-    fwrite(STDERR, "Falha: sinalização azul para pago inválida.\n");
+if (($signalBlue['color'] ?? '') !== 'ctgreen') {
+    fwrite(STDERR, "Falha: sinalização ctgreen para pago inválida.\n");
     exit(1);
 }
 $signalGreenExp = Candidatura::paymentSignal(['indicacao_pagamento_realizado' => 0, 'indicacao_data_fim_experiencia' => date('Y-m-d', strtotime('+10 days'))]);
-if (($signalGreenExp['color'] ?? '') !== 'green') {
-    fwrite(STDERR, "Falha: sinalização verde durante experiência inválida.\n");
+if (($signalGreenExp['color'] ?? '') !== 'ctlight') {
+    fwrite(STDERR, "Falha: sinalização ctlight durante experiência inválida.\n");
     exit(1);
 }
 $signalRed = Candidatura::paymentSignal(['indicacao_pagamento_realizado' => 0, 'indicacao_data_fim_experiencia' => date('Y-m-d', strtotime('-2 days'))]);
-if (($signalRed['color'] ?? '') !== 'red') {
-    fwrite(STDERR, "Falha: sinalização vermelha inválida.\n");
+if (($signalRed['color'] ?? '') !== 'ctdark') {
+    fwrite(STDERR, "Falha: sinalização ctdark inválida.\n");
     exit(1);
 }
 $signalYellow = Candidatura::paymentSignal(['indicacao_pagamento_realizado' => 0, 'indicacao_data_fim_experiencia' => date('Y-m-d', strtotime('-6 days'))]);
-if (($signalYellow['color'] ?? '') !== 'yellow') {
-    fwrite(STDERR, "Falha: sinalização amarela inválida.\n");
+if (($signalYellow['color'] ?? '') !== 'ctdark') {
+    fwrite(STDERR, "Falha: sinalização ctdark inválida.\n");
     exit(1);
 }
 $signalGreenLate = Candidatura::paymentSignal(['indicacao_pagamento_realizado' => 0, 'indicacao_data_fim_experiencia' => date('Y-m-d', strtotime('-12 days'))]);
-if (($signalGreenLate['color'] ?? '') !== 'green') {
-    fwrite(STDERR, "Falha: sinalização verde pós-limite inválida.\n");
+if (($signalGreenLate['color'] ?? '') !== 'ctdark') {
+    fwrite(STDERR, "Falha: sinalização ctdark pós-limite inválida.\n");
     exit(1);
 }
 

@@ -17,6 +17,7 @@ require_once __DIR__ . '/Logger.php';
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/PasswordPolicy.php';
 require_once __DIR__ . '/Security.php';
+require_once __DIR__ . '/Phone.php';
 require_once __DIR__ . '/Auth.php';
 require_once __DIR__ . '/View.php';
 require_once __DIR__ . '/Controller.php';

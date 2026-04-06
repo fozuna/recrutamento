@@ -4,9 +4,9 @@ $versao = trim((string)($app['version'] ?? ''));
 $releaseDate = trim((string)($app['release_date'] ?? ''));
 ?>
 <style>
-  .manual-wrap{max-width:1100px;margin:0 auto;color:#0f172a}
-  .manual-card{background:#fff;border:1px solid #dbe1ea;border-radius:16px;box-shadow:0 8px 24px rgba(2,6,23,.05)}
-  .manual-hero{padding:28px;background:linear-gradient(135deg,#00222C,#0f6b85);color:#fff}
+  .manual-wrap{max-width:1100px;margin:0 auto;color:#0d1321}
+  .manual-card{background:#fff;border:1px solid #3e5c76;border-radius:16px;box-shadow:0 8px 24px rgba(13,19,33,.08)}
+  .manual-hero{padding:28px;background:linear-gradient(135deg,#0d1321,#1d2d44);color:#fff}
   .manual-kpi{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:12px}
   .manual-kpi-label{font-size:12px;opacity:.9}
   .manual-kpi-value{font-size:15px;font-weight:700;margin-top:4px}
@@ -14,26 +14,26 @@ $releaseDate = trim((string)($app['release_date'] ?? ''));
   .manual-grid-3{grid-template-columns:2fr 1fr}
   .manual-grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .manual-title{font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.01em}
-  .manual-subtitle{font-size:17px;line-height:1.6;color:#334155}
-  .manual-h2{font-size:24px;font-weight:800;color:#0b3550}
-  .manual-h3{font-size:18px;font-weight:800;color:#0b3550}
-  .manual-p{font-size:16px;line-height:1.7;color:#1e293b}
-  .manual-muted{font-size:14px;color:#475569}
-  .manual-link{color:#0f6b85;font-weight:700;text-decoration:none}
+  .manual-subtitle{font-size:17px;line-height:1.6;color:#0d1321}
+  .manual-h2{font-size:24px;font-weight:800;color:#0d1321}
+  .manual-h3{font-size:18px;font-weight:800;color:#0d1321}
+  .manual-p{font-size:16px;line-height:1.7;color:#0d1321}
+  .manual-muted{font-size:14px;color:#3e5c76}
+  .manual-link{color:#1d2d44;font-weight:700;text-decoration:none}
   .manual-link:hover{text-decoration:underline}
   .manual-section{padding:20px}
-  .manual-chip{display:inline-block;background:#e6f4ff;color:#0b3550;border:1px solid #b6dbf5;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
+  .manual-chip{display:inline-block;background:#3e5c76;color:#fff;border:1px solid #1d2d44;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
   .manual-accordion{display:flex;flex-direction:column;gap:14px}
   .manual-details summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
   .manual-details summary::-webkit-details-marker{display:none}
   .manual-summary-left{display:flex;align-items:center;gap:10px}
-  .manual-icon{width:22px;height:22px;min-width:22px;display:inline-block;color:#0f6b85}
+  .manual-icon{width:22px;height:22px;min-width:22px;display:inline-block;color:#1d2d44}
   .manual-details[open] .manual-chevron{transform:rotate(90deg)}
-  .manual-chevron{width:18px;height:18px;color:#64748b;transition:transform .2s ease}
+  .manual-chevron{width:18px;height:18px;color:#3e5c76;transition:transform .2s ease}
   .manual-content{padding:0 20px 20px}
-  .manual-block{border:1px solid #dbe1ea;background:#f8fafc;border-radius:12px;padding:14px}
+  .manual-block{border:1px solid #3e5c76;background:#fff;border-radius:12px;padding:14px}
   .manual-list{margin:8px 0 0 0;padding-left:18px}
-  .manual-list li{margin:5px 0;color:#1e293b}
+  .manual-list li{margin:5px 0;color:#0d1321}
   @media (max-width:960px){
     .manual-grid-3,.manual-grid-2{grid-template-columns:1fr}
     .manual-title{font-size:30px}
@@ -65,7 +65,7 @@ $releaseDate = trim((string)($app['release_date'] ?? ''));
   <section class="manual-grid manual-grid-3" style="margin-top:18px">
     <article class="manual-card manual-section">
       <h2 class="manual-h2">Sobre o sistema</h2>
-      <p class="manual-p" style="margin-top:8px">O Portal RH da <img src="<?= $base ?>/assets/logo-escura.png" alt="CT Price" class="h-4 inline align-middle"> concentra operações de recrutamento em um fluxo único: publicação de vagas, recebimento de candidaturas, acompanhamento por etapas no pipeline, gestão de benefícios e administração de usuários com perfis de acesso.</p>
+      <p class="manual-p" style="margin-top:8px">O Portal RH da <img src="<?= $base ?>/assets/logo-escura.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-4 inline align-middle"> concentra operações de recrutamento em um fluxo único: publicação de vagas, recebimento de candidaturas, acompanhamento por etapas no pipeline, gestão de benefícios e administração de usuários com perfis de acesso.</p>
       <p class="manual-p" style="margin-top:8px">As funcionalidades principais incluem painel com indicadores, filtros por vaga/etapa/período, movimentação no kanban, histórico de alterações e download de currículos com nome otimizado por candidato e vaga.</p>
     </article>
     <article class="manual-card manual-section">
@@ -99,7 +99,7 @@ $releaseDate = trim((string)($app['release_date'] ?? ''));
         <p class="manual-p">
           O Portal RH da 
           <img src="<?= $base ?>/assets/logo-escura.png"
-              alt="CT Price"
+              alt="TRAXTER. - Recrutamento e Seleção"
               class="h-4 inline align-middle">
           centraliza a gestão de recrutamento...
         </p>

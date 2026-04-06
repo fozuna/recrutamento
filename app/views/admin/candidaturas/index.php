@@ -3,7 +3,7 @@
 <div class="bg-white shadow rounded p-6">
   <div class="flex justify-between items-center">
       <h2 class="text-xl font-semibold text-ctpblue">Candidaturas</h2>
-      <a href="<?= $base ?>/admin/pipeline" class="text-sm bg-blue-100 text-blue-800 px-3 py-1 rounded hover:bg-blue-200">Ver Kanban</a>
+      <a href="<?= $base ?>/admin/pipeline" class="text-sm bg-ctlight text-white px-3 py-1 rounded hover:bg-ctgreen">Ver Kanban</a>
   </div>
   
   <form class="mt-4 grid md:grid-cols-4 gap-3" method="get">
@@ -62,11 +62,15 @@
             <td class="p-3 font-medium text-gray-900"><?= Security::e($c['vaga_titulo'] ?? '-') ?></td>
             <td class="p-3 text-gray-900"><?= Security::e($c['nome']) ?></td>
             <td class="p-3 text-gray-500"><?= Security::e($c['email']) ?></td>
-            <td class="p-3 text-gray-500"><?= Security::e($c['telefone']) ?></td>
+            <td class="p-3 text-gray-500"><?= Security::e(Phone::format($c['telefone'] ?? '')) ?></td>
             <td class="p-3">
                 <?php 
                 $stageName = $c['stage_nome'] ?? 'Novo';
                 $stageColor = $c['stage_cor'] ?? '#cccccc';
+                $stageColorNormalized = strtolower(trim((string)$stageColor));
+                if (in_array($stageColorNormalized, ['#10b981', '#059669', '#10e36b', '#057038', '#166534', '#14532d'], true)) {
+                    $stageColor = '#1d2d44';
+                }
                 ?>
                 <span class="px-2 py-1 rounded text-xs font-semibold text-white" style="background-color: <?= $stageColor ?>;">
                     <?= Security::e($stageName) ?>
@@ -74,7 +78,7 @@
             </td>
             <td class="p-3 text-gray-500"><?= date('d/m/Y H:i', strtotime($c['created_at'])) ?></td>
             <td class="p-3 space-x-2">
-              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-blue-600 hover:text-blue-900 font-medium">Detalhes</a>
+              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Detalhes</a>
               <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/download" class="text-gray-600 hover:text-gray-900">PDF</a>
             </td>
             <td class="p-3">

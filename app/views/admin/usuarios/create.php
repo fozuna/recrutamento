@@ -9,7 +9,7 @@ $base = Config::app()['base_url'] ?? '';
     </div>
   <?php endif; ?>
   <?php if (!empty($success)): ?>
-    <div class="mt-3 p-3 bg-green-50 text-green-700 border border-green-200 rounded text-sm">
+    <div class="mt-3 p-3 bg-ctlight text-white border border-ctdark rounded text-sm">
       <?= Security::e($success) ?>
     </div>
   <?php endif; ?>

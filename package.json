@@ -4,9 +4,9 @@
   "description": "Sistema PHP (OOP) com MySQL (PDO) para gestão de vagas e currículos.",
   "main": "index.js",
   "scripts": {
-    "dev:css": "tailwindcss -i ./assets/tailwind-input.css -o ./public/assets/tailwind.css --watch",
-    "build:css": "tailwindcss -i ./assets/tailwind-input.css -o ./public/assets/tailwind.css --minify",
-    "test:unit": "node tests/unit/share-utils.test.js",
+    "dev:css": "tailwindcss -i ./assets/tailwind-input.css -o ./assets/tailwind.css --watch",
+    "build:css": "tailwindcss -i ./assets/tailwind-input.css -o ./assets/tailwind.css --minify && node -e \"const fs=require('fs');fs.mkdirSync('./public/assets',{recursive:true});fs.copyFileSync('./assets/tailwind.css','./public/assets/tailwind.css');\"",
+    "test:unit": "node tests/unit/share-utils.test.js && node tests/unit/phone-utils.test.js",
     "test:visual": "playwright test",
     "test:integration:share": "playwright test tests/share-menu.spec.js",
     "test:visual:update": "playwright test --update-snapshots"

@@ -146,7 +146,7 @@ class Logger
         @chmod($file, 0644);
 
         if (($level === 'CRITICAL' || $level === 'ERROR') && self::$alertEmail !== null) {
-            $subject = '[CT Price] ' . $level . ' detectado';
+            $subject = '[TRAXTER. - Recrutamento e Seleção] ' . $level . ' detectado';
             $body = "Mensagem: {$message}\nTimestamp: {$record['timestamp']}\nURL: " . self::requestUrl();
             @mail(self::$alertEmail, $subject, $body);
         }

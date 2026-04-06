@@ -102,7 +102,7 @@ $isLocked = Installer::isInstalled();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Instalador CT Price</title>
+  <title>Instalador TRAXTER. - Recrutamento e Seleção</title>
   <style>
     body{font-family:Montserrat,system-ui,-apple-system,sans-serif;background:#f7fafc;margin:0}
     .wrap{max-width:900px;margin:24px auto;padding:0 16px}
@@ -113,9 +113,9 @@ $isLocked = Installer::isInstalled();
     .field{display:flex;flex-direction:column;gap:6px}
     label{font-size:13px;color:#334155}
     input,select{border:1px solid #cbd5e1;border-radius:8px;padding:10px;font-size:14px}
-    button{background:#00222C;color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:600;cursor:pointer}
+    button{background:#0d1321;color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:600;cursor:pointer}
     button:disabled{opacity:.5;cursor:not-allowed}
-    .ok{color:#166534}
+    .ok{color:#1d2d44}
     .bad{color:#991b1b}
     .log{background:#0b1220;color:#dbeafe;padding:12px;border-radius:10px;white-space:pre-wrap;font-size:12px;max-height:260px;overflow:auto}
     .note{font-size:13px;color:#475569}
@@ -125,7 +125,7 @@ $isLocked = Installer::isInstalled();
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Instalador Web CT Price</h1>
+      <h1>Instalador Web TRAXTER. - Recrutamento e Seleção</h1>
       <p class="note">Preencha os dados e clique em instalar. O processo cria configuração local, importa banco, aplica migrações e prepara diretórios.</p>
 
       <h2>Requisitos do servidor</h2>

@@ -288,9 +288,49 @@
     });
   };
 
+  const initPhoneMask = () => {
+    const phoneInput = document.querySelector('[data-phone-input="1"]');
+    if (!phoneInput || !window.PhoneUtils) return;
+
+    const phoneInvalid = document.querySelector('[data-phone-error="invalid"]');
+
+    const setHidden = (el, hidden) => {
+      if (!el) return;
+      if (hidden) {
+        el.classList.add('hidden');
+      } else {
+        el.classList.remove('hidden');
+      }
+    };
+
+    const sync = () => {
+      const d = window.PhoneUtils.digits(phoneInput.value || '').slice(0, 11);
+      phoneInput.value = window.PhoneUtils.format(d);
+
+      if (d.length === 0) {
+        setHidden(phoneInvalid, true);
+        phoneInput.setCustomValidity('');
+        return;
+      }
+
+      if (d.length !== 11) {
+        setHidden(phoneInvalid, false);
+        phoneInput.setCustomValidity('Telefone inválido. Informe 11 dígitos (DDD + número).');
+        return;
+      }
+
+      setHidden(phoneInvalid, true);
+      phoneInput.setCustomValidity('');
+    };
+
+    phoneInput.addEventListener('input', sync);
+    phoneInput.addEventListener('blur', sync);
+    sync();
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     initShareMenu();
     initCpfValidation();
+    initPhoneMask();
   });
 })();
-

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="app-base" content="<?= Security::e($base ?? '') ?>">
   <meta name="csrf-token" content="<?= Security::e(Security::csrfToken()) ?>">
-  <title>CT Price - Gestão de Currículos</title>
+  <title>TRAXTER RH</title>
   <link rel="stylesheet" href="<?= $base ?>/assets/tailwind.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -35,6 +35,7 @@
       }
     }
   </style>
+  <script src="<?= $base ?>/assets/phone-utils.js" defer></script>
   <script src="<?= $base ?>/assets/share-utils.js" defer></script>
   <script src="<?= $base ?>/assets/public.js" defer></script>
 </head>
@@ -51,7 +52,7 @@
   <header class="bg-ctpblue text-white">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <img src="<?= $base ?>/assets/logo.png" alt="CT Price" class="h-8 w-auto object-contain">
+        <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-8 w-auto object-contain">
       </div>
       <nav class="text-sm flex items-center gap-4">
         <a href="<?= $base ?>/vagas" class="hover:text-ctgreen">Vagas</a>

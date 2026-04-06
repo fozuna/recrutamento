@@ -70,7 +70,7 @@ if ($status !== '') { $params['status'] = $status; }
           </td>
           <td class="p-3 text-gray-500"><?= !empty($u['created_at']) ? date('d/m/Y H:i', strtotime((string)$u['created_at'])) : '-' ?></td>
           <td class="p-3 whitespace-nowrap">
-            <a href="<?= $base ?>/admin/usuarios/<?= (int)$u['id'] ?>" class="text-blue-600 hover:text-blue-900 font-medium">Visualizar</a>
+            <a href="<?= $base ?>/admin/usuarios/<?= (int)$u['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Visualizar</a>
           </td>
         </tr>
       <?php endforeach; ?>

@@ -12,7 +12,7 @@ class Config
         $baseConfigPath = __DIR__ . '/../config/config.php';
         $config = [
             'app' => [
-                'name' => 'CT Price',
+                'name' => 'TRAXTER RH',
                 'version' => '1.0.0',
                 'release_date' => '',
                 'base_url' => '',

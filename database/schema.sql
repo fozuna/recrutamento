@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS candidaturas (
   vaga_id INT NOT NULL,
   nome VARCHAR(120) NOT NULL,
   email VARCHAR(120) NOT NULL,
-  telefone VARCHAR(40) NOT NULL,
+  telefone VARCHAR(11) NOT NULL,
   cpf VARCHAR(11) NOT NULL UNIQUE,
   cargo_pretendido VARCHAR(120) NOT NULL,
   experiencia TEXT NOT NULL,

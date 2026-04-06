@@ -3,12 +3,23 @@ module.exports = {
   content: [
     './app/views/**/*.php',
   ],
+  safelist: [
+    'ct-btn',
+    'ct-btn-primary',
+    'ct-btn-success',
+    'ct-btn-warning',
+    'ct-btn-muted',
+    'ct-badge',
+    'ct-badge-active',
+    'ct-badge-inactive',
+  ],
   theme: {
     extend: {
       colors: {
-        ctgreen: '#10E36B',
-        ctdark: '#057038',
-        ctpblue: '#00222C',
+        ctdark: '#0d1321',
+        ctgreen: '#1d2d44',
+        ctlight: '#3e5c76',
+        ctpblue: '#0d1321',
       },
       fontFamily: {
         sans: ['Montserrat','system-ui','-apple-system','sans-serif']
@@ -17,4 +28,3 @@ module.exports = {
   },
   plugins: [],
 }
-
