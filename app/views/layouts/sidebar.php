@@ -5,7 +5,7 @@ if ($publicJobsUrl === '') {
     $publicJobsUrl = rtrim((string)($cfg['app']['base_url'] ?? ''), '/') . '/vagas';
 }
 ?>
-<aside class="fixed inset-y-0 left-0 w-64 shadow-sm z-30" style="background-color: #0d1321;">
+<aside class="w-64 h-full" style="background-color: #0d1321;">
   <div class="h-full flex flex-col">
     <div class="px-4 py-4 flex items-center justify-center border-b border-gray-600">
         <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-8 w-auto object-contain">

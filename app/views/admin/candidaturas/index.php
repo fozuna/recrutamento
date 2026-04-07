@@ -41,7 +41,7 @@
   </form>
 
   <div class="mt-6 overflow-x-auto">
-    <table class="min-w-full text-sm">
+    <table class="min-w-full text-sm hidden md:table">
       <thead class="bg-gray-50">
         <tr class="border-b">
           <th class="text-left p-3 font-medium text-gray-500">#</th>
@@ -107,6 +107,48 @@
         <?php endif; ?>
       </tbody>
     </table>
+    <div class="md:hidden space-y-3">
+      <?php foreach ($candidaturas as $c): ?>
+        <div class="bg-white border rounded p-3 shadow-sm">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="text-sm font-semibold text-gray-900"><?= Security::e($c['nome']) ?></div>
+              <div class="text-xs text-gray-500"><?= Security::e($c['email']) ?></div>
+              <div class="text-xs text-gray-500"><?= Security::e(Phone::format($c['telefone'] ?? '')) ?></div>
+              <div class="text-xs text-gray-500 mt-1"><?= Security::e($c['vaga_titulo'] ?? '-') ?></div>
+            </div>
+            <span class="px-2 py-1 rounded text-[11px] font-semibold text-white" style="background-color: <?= $c['stage_cor'] ?? '#cccccc' ?>;">
+              <?= Security::e($c['stage_nome'] ?? 'Novo') ?>
+            </span>
+          </div>
+          <div class="flex justify-between items-center mt-2">
+            <div class="text-xs text-gray-500"><?= date('d/m/Y H:i', strtotime($c['created_at'])) ?></div>
+            <div class="text-xs space-x-2">
+              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-ctgreen font-medium">Detalhes</a>
+              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/download" class="text-gray-600">PDF</a>
+            </div>
+          </div>
+          <div class="mt-2">
+            <?php $canToggleIndicacao = in_array((string)Auth::role(), ['admin', 'rh'], true); ?>
+            <form action="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/indicacao" method="post" class="flex items-center justify-between gap-2" data-indicacao-form="<?= (int)$c['id'] ?>">
+              <input type="hidden" name="csrf" value="<?= Security::e($csrf ?? '') ?>">
+              <input type="hidden" name="indicacao_colaborador" value="0">
+              <input type="hidden" name="indicacao_colaborador_nome" value="<?= Security::e($c['indicacao_colaborador_nome'] ?? '') ?>" data-indicacao-nome-hidden="<?= (int)$c['id'] ?>">
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-gray-600">
+                <input type="checkbox" name="indicacao_colaborador" value="1" <?= (int)($c['indicacao_colaborador'] ?? 0) === 1 ? 'checked' : '' ?> <?= $canToggleIndicacao ? '' : 'disabled' ?> class="rounded border-gray-300 text-ctgreen focus:ring-ctgreen h-4 w-4" data-indicacao-check="<?= (int)$c['id'] ?>">
+                <span><?= (int)($c['indicacao_colaborador'] ?? 0) === 1 ? 'Indic.' : 'Não' ?></span>
+              </label>
+              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-xs text-ctgreen font-medium">Abrir</a>
+            </form>
+            <?php if ((int)($c['indicacao_colaborador'] ?? 0) === 1 && !empty($c['indicacao_colaborador_nome'])): ?>
+              <div class="text-xs text-gray-500 mt-1 truncate" title="<?= Security::e($c['indicacao_colaborador_nome']) ?>">
+                <?= Security::e($c['indicacao_colaborador_nome']) ?>
+              </div>
+            <?php endif; ?>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
   </div>
 </div>
 <div id="indicacao-modal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">

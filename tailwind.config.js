@@ -15,6 +15,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px'
+      },
       colors: {
         ctdark: '#0d1321',
         ctgreen: '#1d2d44',

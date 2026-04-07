@@ -15,7 +15,7 @@
       </span>
   </div>
   
-  <div class="grid md:grid-cols-2 gap-6">
+  <div class="grid gap-6 md:grid-cols-2">
       <div>
           <?php if (!empty($c['cpf'])): ?>
             <p class="text-gray-600"><strong>CPF:</strong> <?= substr($c['cpf'], 0, 3) . '.' . substr($c['cpf'], 3, 3) . '.' . substr($c['cpf'], 6, 3) . '-' . substr($c['cpf'], 9, 2) ?></p>
@@ -27,7 +27,7 @@
       </div>
       <div>
           <p class="font-semibold text-gray-700">Experiência/Resumo:</p>
-          <div class="mt-1 p-3 bg-gray-50 border rounded text-sm text-gray-800 h-32 overflow-y-auto">
+          <div class="mt-1 p-3 bg-gray-50 border rounded text-sm text-gray-800 max-h-52 md:h-32 overflow-y-auto">
               <?= nl2br(Security::e($c['experiencia'])) ?>
           </div>
           <div class="mt-4">
@@ -35,7 +35,7 @@
                <?php if ($hasResume): ?>
                <a
                  href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/download"
-                 class="inline-flex items-center px-4 py-2 rounded shadow-sm bg-ctgreen text-white hover:bg-ctdark active:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ctgreen transition"
+                 class="inline-flex items-center px-4 py-2 rounded shadow-sm bg-ctgreen text-white hover:bg-ctdark active:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ctgreen transition touch-target w-full md:w-auto"
                  role="button"
                  aria-label="Baixar Currículo"
                  title="Baixar Currículo"
@@ -61,7 +61,7 @@
                <?php endif; ?>
                
                <!-- Placeholder AI Analysis -->
-               <button type="button" data-ai-analyze="1" class="ml-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-ctpblue bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ctgreen">
+               <button type="button" data-ai-analyze="1" class="mt-2 md:mt-0 md:ml-2 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-ctpblue bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ctgreen touch-target w-full md:w-auto">
                   <svg class="mr-2 -ml-1 h-5 w-5 text-ctlight" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                    </svg>

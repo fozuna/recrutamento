@@ -50,13 +50,16 @@
   
   <?php if (!$isLoginPage): ?>
   <header class="bg-ctpblue text-white">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-8 w-auto object-contain">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button type="button" class="app-nav-toggle touch-target sm:hidden" aria-controls="public-menu" aria-expanded="false" data-public-menu-toggle="1">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-7 w-auto object-contain">
       </div>
-      <nav class="text-sm flex items-center gap-4">
+      <nav class="text-sm items-center gap-4 hidden sm:flex">
         <a href="<?= $base ?>/vagas" class="hover:text-ctgreen">Vagas</a>
-        <div class="relative">
+        <div class="relative hidden sm:block">
           <button
             type="button"
             id="share-menu-trigger"
@@ -95,6 +98,11 @@
             </div>
           </div>
         </div>
+      </nav>
+    </div>
+    <div id="public-menu" class="hidden sm:hidden border-t border-white/10">
+      <nav class="px-4 py-2 flex flex-col gap-2 text-sm bg-ctpblue">
+        <a href="<?= $base ?>/vagas" class="hover:text-ctgreen">Vagas</a>
       </nav>
     </div>
   </header>

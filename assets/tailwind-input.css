@@ -11,6 +11,8 @@
     --ctpblue: #0d1321;
   }
   body { font-family: 'Montserrat', system-ui, -apple-system, sans-serif; }
+  img, svg, video, canvas { max-width: 100%; height: auto; }
+  html, body { width: 100%; overflow-x: hidden; }
 }
 
 @layer utilities {
@@ -28,6 +30,17 @@
 }
 
 @layer components {
+  /* Mobile-first app shell */
+  .app-header { @apply w-full flex items-center justify-between px-4 py-3 bg-ctpblue text-white; }
+  .app-nav-toggle { @apply inline-flex items-center justify-center w-11 h-11 rounded-md focus:outline-none focus:ring-2 focus:ring-white; }
+  .app-drawer { @apply fixed inset-y-0 left-0 w-64 max-w-[85vw] bg-white shadow-lg z-40 translate-x-[-100%] transition-transform; }
+  .app-drawer.open { transform: translateX(0); }
+  .app-overlay { @apply fixed inset-0 bg-black bg-opacity-40 z-30 hidden; }
+  .app-overlay.open { display:block; }
+  .touch-target { @apply min-h-[44px] min-w-[44px]; }
+  .snap-x { scroll-snap-type: x mandatory; }
+  .snap-start { scroll-snap-align: start; }
+
   .ct-btn {
     display: inline-flex;
     align-items: center;

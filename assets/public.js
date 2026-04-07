@@ -180,6 +180,30 @@
     }
   };
 
+  const initPublicMenu = () => {
+    const btn = document.querySelector('[data-public-menu-toggle="1"]');
+    const menu = document.getElementById('public-menu');
+    if (!btn || !menu) return;
+    const open = () => {
+      menu.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+    };
+    const close = () => {
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    };
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      if (expanded) close(); else open();
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 640) {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  };
+
   const initCpfValidation = () => {
     const cpfInput = document.querySelector('[data-cpf-input="1"]');
     if (!cpfInput) return;
@@ -330,6 +354,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     initShareMenu();
+    initPublicMenu();
     initCpfValidation();
     initPhoneMask();
   });
