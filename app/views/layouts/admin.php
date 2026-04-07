@@ -14,8 +14,8 @@
   <script src="<?= $base ?>/assets/admin.js" defer></script>
 </head>
 <body class="min-h-screen bg-gray-50">
-  <header class="app-header md:hidden">
-    <button type="button" class="app-nav-toggle touch-target" aria-controls="admin-drawer" aria-expanded="false" data-admin-menu-toggle="1">
+  <header class="app-header">
+    <button type="button" class="app-nav-toggle touch-target md:hidden menu-toggle" aria-controls="admin-drawer" aria-expanded="false" data-admin-menu-toggle="1">
       <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
     <div class="flex items-center gap-2">
@@ -23,16 +23,17 @@
       <span class="text-sm font-semibold">Painel</span>
     </div>
   </header>
-  <div id="admin-overlay" class="app-overlay" data-admin-overlay="1"></div>
-  <div id="admin-drawer" class="app-drawer md:translate-x-0 md:static md:inset-auto md:w-64" data-admin-drawer="1">
-    <?php include APP_PATH . '/views/layouts/sidebar.php'; ?>
+  <div class="app">
+    <aside class="sidebar w-64 min-h-screen flex-shrink-0" data-admin-sidebar="1" style="background-color:#ffffff">
+      <?php include APP_PATH . '/views/layouts/sidebar.php'; ?>
+    </aside>
+    <div id="admin-overlay" class="app-overlay" data-admin-overlay="1"></div>
+    <main class="content flex-1 bg-gray-100 p-6">
+      <?= $content ?>
+    </main>
   </div>
 
-  <main class="px-4 md:ml-64 md:px-6 py-8 min-h-screen pb-24">
-    <?= $content ?>
-  </main>
-
-  <footer class="fixed bottom-0 left-64 right-0 border-t bg-white z-20">
+  <footer class="border-t bg-white">
     <div class="px-6 py-3 text-gray-500 text-sm text-center">
       © <?= date("Y"); ?> 
       <a href="https://traxter.com.br/" target="_blank">

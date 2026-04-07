@@ -43,17 +43,17 @@
   };
 
   const initAdminDrawer = () => {
-    const btn = document.querySelector('[data-admin-menu-toggle="1"]');
-    const drawer = document.querySelector('[data-admin-drawer="1"]');
+    const btn = document.querySelector('.menu-toggle') || document.querySelector('[data-admin-menu-toggle="1"]');
+    const sidebar = document.querySelector('[data-admin-sidebar="1"]') || document.querySelector('aside');
     const overlay = document.querySelector('[data-admin-overlay="1"]');
-    if (!btn || !drawer || !overlay) return;
+    if (!btn || !sidebar || !overlay) return;
     const open = () => {
-      drawer.classList.add('open');
+      sidebar.classList.add('active');
       overlay.classList.add('open');
       btn.setAttribute('aria-expanded', 'true');
     };
     const close = () => {
-      drawer.classList.remove('open');
+      sidebar.classList.remove('active');
       overlay.classList.remove('open');
       btn.setAttribute('aria-expanded', 'false');
     };
@@ -64,10 +64,8 @@
     overlay.addEventListener('click', close);
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 768) {
-        drawer.classList.add('open');
+        sidebar.classList.remove('active');
         overlay.classList.remove('open');
-      } else {
-        drawer.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
       }
     });

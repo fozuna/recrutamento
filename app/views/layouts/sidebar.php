@@ -4,13 +4,11 @@ $publicJobsUrl = (string)($cfg['app']['public_jobs_url'] ?? '');
 if ($publicJobsUrl === '') {
     $publicJobsUrl = rtrim((string)($cfg['app']['base_url'] ?? ''), '/') . '/vagas';
 }
-?>
-<aside class="w-64 h-full" style="background-color: #0d1321;">
+?><div class="h-full flex flex-col" style="background-color: #0d1321;">
   <div class="h-full flex flex-col">
     <div class="px-4 py-4 flex items-center justify-center border-b border-gray-600">
         <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-8 w-auto object-contain">
       </div>
-    <nav class="mt-2 flex-1 px-2 space-y-1 text-sm">
       <?php if (Auth::check()): ?>
         <a href="<?= $base ?>/admin" class="flex items-center px-3 py-2 rounded hover:bg-ctgreen hover:bg-opacity-50 text-gray-200 hover:text-white transition-colors">
           <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>
@@ -69,4 +67,3 @@ if ($publicJobsUrl === '') {
       <span>Portal RH - Recrutamento e Seleção</span>
     </div>
   </div>
-</aside>
