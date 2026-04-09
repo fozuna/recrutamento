@@ -105,6 +105,7 @@
     .kanban-board { grid-auto-columns: minmax(16rem, calc(100vw - 2rem)); }
   }
   @media (min-width: 769px) {
+    .app-header { display: none !important; }
     .mobile-table-desktop { display: table !important; }
     .mobile-block-desktop { display: block !important; }
   }

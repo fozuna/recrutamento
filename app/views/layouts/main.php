@@ -7,7 +7,7 @@
   <meta name="app-base" content="<?= Security::e($base ?? '') ?>">
   <meta name="csrf-token" content="<?= Security::e(Security::csrfToken()) ?>">
   <title>TRAXTER RH</title>
-  <link rel="stylesheet" href="<?= $base ?>/assets/tailwind.css">
+  <link rel="stylesheet" href="<?= $base ?>/assets/tailwind.css?v=<?= urlencode(Config::app()['version'] ?? '') ?>">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Montserrat', system-ui, -apple-system, sans-serif; }
@@ -35,9 +35,9 @@
       }
     }
   </style>
-  <script src="<?= $base ?>/assets/phone-utils.js" defer></script>
-  <script src="<?= $base ?>/assets/share-utils.js" defer></script>
-  <script src="<?= $base ?>/assets/public.js" defer></script>
+  <script src="<?= $base ?>/assets/phone-utils.js?v=<?= urlencode(Config::app()['version'] ?? '') ?>" defer></script>
+  <script src="<?= $base ?>/assets/share-utils.js?v=<?= urlencode(Config::app()['version'] ?? '') ?>" defer></script>
+  <script src="<?= $base ?>/assets/public.js?v=<?= urlencode(Config::app()['version'] ?? '') ?>" defer></script>
 </head>
 <body class="min-h-screen bg-gray-50">
   <?php 
