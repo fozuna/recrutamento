@@ -1,13 +1,13 @@
 <?php
 $isActive = !empty($user->email_verified_at);
 ?>
-<div class="max-w-2xl bg-white shadow rounded p-6">
-  <div class="flex items-center justify-between">
+<div class="responsive-panel max-w-2xl">
+  <div class="responsive-header">
     <h2 class="text-xl font-semibold text-ctpblue">Detalhes do usuário</h2>
     <a href="<?= $base ?>/admin/usuarios" class="text-ctpblue hover:text-ctgreen">Voltar</a>
   </div>
 
-  <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
+  <div class="mt-4 grid gap-4 text-sm md:grid-cols-2">
     <div>
       <div class="text-gray-500">Nome completo</div>
       <div class="font-medium text-gray-900"><?= Security::e($user->nome) ?></div>
@@ -36,7 +36,7 @@ $isActive = !empty($user->email_verified_at);
     </div>
   </div>
 
-  <div class="mt-6 flex flex-wrap gap-4">
+  <div class="responsive-form-actions mt-6">
     <form action="<?= $base ?>/admin/usuarios/<?= (int)$user->id ?>/status" method="post">
       <input type="hidden" name="csrf" value="<?= Security::e($csrf) ?>">
       <input type="hidden" name="active" value="<?= $isActive ? '0' : '1' ?>">
@@ -50,8 +50,8 @@ $isActive = !empty($user->email_verified_at);
   </div>
 </div>
 <div id="password-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
-  <div class="w-full max-w-md bg-white rounded shadow p-6">
-    <div class="flex items-center justify-between">
+  <div class="w-full max-w-md rounded bg-white p-6 shadow">
+    <div class="responsive-header">
       <h3 class="text-lg font-semibold text-ctpblue">Alterar senha do usuário</h3>
       <button type="button" id="close-password-modal" class="px-4 py-2 rounded border text-sm text-gray-600 hover:bg-gray-50">Fechar</button>
     </div>
@@ -62,7 +62,7 @@ $isActive = !empty($user->email_verified_at);
         <input type="password" name="new_password" required minlength="12" class="mt-1 w-full border rounded px-3 py-2 text-sm" placeholder="Digite a nova senha">
       </div>
       <div class="text-sm text-gray-500">Tem certeza que deseja alterar a senha deste usuário?</div>
-      <div class="flex flex-wrap items-center justify-end gap-4 pt-2">
+      <div class="responsive-form-actions justify-end pt-2">
         <button type="button" id="cancel-password-modal" class="px-4 py-2 rounded border text-sm text-gray-600 hover:bg-gray-50">Cancelar</button>
         <button type="submit" class="bg-ctgreen text-white px-4 py-2 rounded hover:bg-ctdark text-sm">Confirmar alteração</button>
       </div>

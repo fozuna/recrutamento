@@ -2,9 +2,6 @@
 declare(strict_types=1);
 require_once __DIR__ . '/../app/core/bootstrap.php';
 
-define('BASE_PATH', dirname(__DIR__));
-define('STORAGE_PATH', BASE_PATH . DIRECTORY_SEPARATOR . 'storage');
-
 $email = $argv[1] ?? 'admin@ctprice.local';
 $newPassword = $argv[2] ?? '23082524';
 
@@ -45,6 +42,9 @@ try {
     }
 
     $algoInfo = password_get_info($storedHash);
+    foreach (['127.0.0.1', '::1', '0.0.0.0'] as $ip) {
+        Security::rateLimitReset('login', $ip . '|' . strtolower($email));
+    }
     $payload = [
         'timestamp' => $timestamp,
         'action' => 'password_reset_direct_update',
@@ -78,4 +78,3 @@ try {
     }
     exit(1);
 }
-

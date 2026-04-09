@@ -1,6 +1,6 @@
 <?php
 ?>
-<div class="bg-white shadow rounded p-6 max-w-2xl">
+<div class="responsive-panel max-w-2xl">
   <h2 class="text-xl font-semibold text-ctpblue mb-4"><?= isset($beneficio['id']) ? 'Editar benefício' : 'Novo benefício' ?></h2>
 
   <?php if (!empty($error)): ?>
@@ -41,9 +41,9 @@
       <label for="ativo" class="text-sm text-gray-700">Ativo</label>
     </div>
 
-    <div class="pt-2">
+    <div class="responsive-form-actions pt-2">
       <button type="submit" class="bg-ctgreen text-white px-4 py-2 rounded hover:bg-ctdark">Salvar</button>
-      <a href="<?= $base ?>/admin/beneficios" class="ml-2 text-ctpblue hover:text-ctgreen">Cancelar</a>
+      <a href="<?= $base ?>/admin/beneficios" class="text-ctpblue hover:text-ctgreen">Cancelar</a>
     </div>
   </form>
 </div>

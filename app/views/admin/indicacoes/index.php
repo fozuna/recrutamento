@@ -14,19 +14,19 @@ if ($dataDe !== '') { $params['data_de'] = $dataDe; }
 if ($dataAte !== '') { $params['data_ate'] = $dataAte; }
 if ($indicador !== '') { $params['indicador'] = $indicador; }
 ?>
-<div class="bg-white shadow rounded p-6">
+<div class="responsive-panel">
   <?php if (!empty($flashError)): ?>
     <div class="mb-4 rounded border border-red-200 bg-red-50 text-red-700 px-4 py-2 text-sm"><?= Security::e($flashError) ?></div>
   <?php endif; ?>
   <?php if (!empty($flashSuccess)): ?>
     <div class="mb-4 rounded border border-ctdark bg-ctlight text-white px-4 py-2 text-sm"><?= Security::e($flashSuccess) ?></div>
   <?php endif; ?>
-  <div class="flex items-center justify-between gap-3 flex-wrap">
+  <div class="responsive-header">
     <h2 class="text-xl font-semibold text-ctpblue">Programa de Indicações</h2>
     <div class="text-sm text-gray-500">Indicados cadastrados: <?= (int)$total ?></div>
   </div>
 
-  <form class="mt-4 grid md:grid-cols-6 gap-3" method="get" action="<?= $queryBase ?>">
+  <form class="responsive-form-grid-6 mt-4" method="get" action="<?= $queryBase ?>">
     <div class="md:col-span-2">
       <label class="block text-sm font-medium text-gray-700">Busca</label>
       <input type="text" name="q" value="<?= Security::e($q) ?>" placeholder="Nome do candidato ou vaga" class="mt-1 w-full border rounded px-3 py-2 text-sm" />
@@ -62,14 +62,16 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
       <label class="block text-sm font-medium text-gray-700">Até</label>
       <input type="date" name="data_ate" value="<?= Security::e($dataAte) ?>" class="mt-1 w-full border rounded px-3 py-2 text-sm" />
     </div>
-    <div class="md:col-span-6 flex gap-2 flex-wrap">
+    <div class="md:col-span-6">
+      <div class="responsive-form-actions">
       <button class="bg-ctgreen text-white px-4 py-2 rounded hover:bg-ctdark text-sm">Filtrar</button>
       <a href="<?= $queryBase ?>" class="px-4 py-2 rounded border text-sm text-gray-600 hover:bg-gray-50">Limpar</a>
       <a href="<?= $queryBase . '/export?' . http_build_query(array_merge($params, ['format' => 'excel'])) ?>" class="px-4 py-2 rounded border text-sm text-ctgreen border-ctgreen hover:bg-ctgreen hover:text-white">Exportar Excel</a>
+      </div>
     </div>
   </form>
 
-  <div class="mt-4 overflow-x-auto hidden md:block">
+  <div class="mobile-block-desktop mt-4 overflow-x-auto">
     <table class="min-w-full text-sm">
       <thead class="bg-gray-50">
       <tr class="border-b">
@@ -147,7 +149,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
     </table>
   </div>
 
-  <div class="mt-4 grid gap-3 md:hidden">
+  <div class="responsive-card-list mt-4 md:hidden">
     <?php foreach ($items as $item): ?>
       <?php
       $contratacao = $item['indicacao_data_contratacao'] ?? null;
@@ -160,7 +162,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
       $pago = (int)($item['indicacao_pagamento_realizado'] ?? 0) === 1;
       $signal = $item['payment_signal'] ?? ['dot' => 'bg-gray-400', 'text' => 'text-gray-700'];
       ?>
-      <div class="border rounded p-4 bg-gray-50">
+      <div class="responsive-card">
         <div class="font-semibold text-ctpblue"><?= Security::e($item['nome']) ?></div>
         <div class="text-sm text-gray-600">Indicado por: <?= Security::e($item['indicacao_colaborador_nome'] ?? '-') ?></div>
         <div class="text-sm text-gray-600"><?= Security::e($item['vaga_titulo'] ?? '-') ?></div>
@@ -169,7 +171,7 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
         <div class="mt-1 text-xs text-gray-500">Tempo: <?= $dias !== null ? $dias . ' dias' : '-' ?></div>
         <div class="mt-1 text-xs text-gray-500">Experiência: <?= Security::e($expStatus) ?></div>
         <div class="mt-1 text-xs <?= Security::e($signal['text'] ?? 'text-gray-700') ?>">Pagamento: <span class="inline-flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full <?= Security::e($signal['dot'] ?? 'bg-gray-400') ?>"></span><?= $pago ? 'Pago em ' . date('d/m/Y', strtotime((string)$item['indicacao_data_pagamento'])) : 'Pendente' ?></span></div>
-        <div class="mt-3 flex gap-3 text-sm">
+        <div class="responsive-card-actions mt-3 text-sm">
           <a href="<?= $base ?>/admin/candidaturas/<?= (int)$item['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Detalhes</a>
           <?php if (!$pago): ?>
             <form action="<?= $base ?>/admin/indicacoes/<?= (int)$item['id'] ?>/pagar" method="post" data-pagamento-form="<?= (int)$item['id'] ?>">
@@ -192,9 +194,9 @@ if ($indicador !== '') { $params['indicador'] = $indicador; }
   </div>
 
   <?php if (($pages ?? 1) > 1): ?>
-    <div class="mt-6 flex items-center justify-between text-sm">
+    <div class="responsive-pagination mt-6 text-sm">
       <div class="text-gray-500">Página <?= (int)$page ?> de <?= (int)$pages ?></div>
-      <div class="flex gap-2">
+      <div class="responsive-form-actions">
         <?php
         $prev = max(1, (int)$page - 1);
         $next = min((int)$pages, (int)$page + 1);

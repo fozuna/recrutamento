@@ -13,22 +13,22 @@
   <script src="<?= $base ?>/assets/phone-utils.js" defer></script>
   <script src="<?= $base ?>/assets/admin.js" defer></script>
 </head>
-<body class="min-h-screen bg-gray-50">
+<body class="app-shell min-h-screen bg-gray-50">
   <header class="app-header">
-    <button type="button" class="app-nav-toggle touch-target md:hidden menu-toggle" aria-controls="admin-drawer" aria-expanded="false" data-admin-menu-toggle="1">
+    <button type="button" class="app-nav-toggle touch-target menu-toggle" aria-controls="admin-drawer" aria-expanded="false" data-admin-menu-toggle="1">
       <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
-    <div class="flex items-center gap-2">
+    <div class="app-header-brand">
       <img src="<?= $base ?>/assets/logo.png" alt="TRAXTER. - Recrutamento e Seleção" class="h-6 w-auto object-contain">
-      <span class="text-sm font-semibold">Painel</span>
+      <span class="app-header-brand-label text-sm font-semibold">Painel</span>
     </div>
   </header>
   <div class="app">
-    <aside class="sidebar w-64 min-h-screen flex-shrink-0" data-admin-sidebar="1" style="background-color:#ffffff">
+    <aside id="admin-drawer" class="sidebar" data-admin-sidebar="1" aria-hidden="true">
       <?php include APP_PATH . '/views/layouts/sidebar.php'; ?>
     </aside>
     <div id="admin-overlay" class="app-overlay" data-admin-overlay="1"></div>
-    <main class="content flex-1 bg-gray-100 p-6">
+    <main class="content bg-gray-100">
       <?= $content ?>
     </main>
   </div>

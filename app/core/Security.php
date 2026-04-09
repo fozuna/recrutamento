@@ -90,10 +90,17 @@ class Security
         if (!is_dir($dir)) {
             @mkdir($dir, 0775, true);
         }
-        $hash = hash('sha256', $scope . '|' . $key);
-        $file = $dir . DIRECTORY_SEPARATOR . $hash . '.json';
+        $file = self::rateLimitFile($scope, $key);
         $now = time();
-        $data = ['attempts' => [], 'locked_until' => 0];
+        $data = [
+            'scope' => $scope,
+            'key' => $key,
+            'max_attempts' => $maxAttempts,
+            'window_seconds' => $windowSeconds,
+            'lockout_seconds' => $lockoutSeconds,
+            'attempts' => [],
+            'locked_until' => 0
+        ];
         if (is_file($file)) {
             $raw = file_get_contents($file);
             if ($raw !== false) {
@@ -106,27 +113,61 @@ class Security
         $data['attempts'] = array_values(array_filter($data['attempts'], function ($ts) use ($now, $windowSeconds) {
             return ($now - (int)$ts) <= $windowSeconds;
         }));
-        $blocked = $now < (int)$data['locked_until'] || count($data['attempts']) >= $maxAttempts;
+        if ($now >= (int)($data['locked_until'] ?? 0)) {
+            $data['locked_until'] = 0;
+        }
+        $attemptsCount = count($data['attempts']);
+        $blocked = $now < (int)$data['locked_until'];
         $retryAfter = 0;
         if ($blocked) {
-            $retryAfter = max(0, ((int)$data['locked_until'] ?: ($data['attempts'][0] ?? $now) + $lockoutSeconds) - $now);
+            $retryAfter = max(0, (int)$data['locked_until'] - $now);
         }
-        return ['blocked' => $blocked, 'retry_after' => $retryAfter, 'file' => $file, 'data' => $data];
+        return [
+            'blocked' => $blocked,
+            'retry_after' => $retryAfter,
+            'attempts_count' => $attemptsCount,
+            'remaining_attempts' => max(0, $maxAttempts - $attemptsCount),
+            'file' => $file,
+            'data' => $data
+        ];
     }
 
-    public static function rateLimitHit(string $file, array $data, bool $success, int $lockoutSeconds): void
+    public static function rateLimitHit(string $file, array $data, bool $success, int $lockoutSeconds, int $maxAttempts = 5, int $windowSeconds = 600): array
     {
         $now = time();
+        $data['attempts'] = array_values(array_filter((array)($data['attempts'] ?? []), function ($ts) use ($now, $windowSeconds) {
+            return ($now - (int)$ts) <= $windowSeconds;
+        }));
         if ($success) {
             $data['attempts'] = [];
             $data['locked_until'] = 0;
         } else {
             $data['attempts'][] = $now;
-            if (count($data['attempts']) > 0) {
+            if (count($data['attempts']) >= $maxAttempts) {
                 $data['locked_until'] = $now + $lockoutSeconds;
+            } else {
+                $data['locked_until'] = 0;
             }
         }
         @file_put_contents($file, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $attemptsCount = count($data['attempts']);
+        $blocked = $now < (int)$data['locked_until'];
+        return [
+            'blocked' => $blocked,
+            'retry_after' => $blocked ? max(0, (int)$data['locked_until'] - $now) : 0,
+            'attempts_count' => $attemptsCount,
+            'remaining_attempts' => max(0, $maxAttempts - $attemptsCount),
+            'file' => $file,
+            'data' => $data
+        ];
+    }
+
+    public static function rateLimitReset(string $scope, string $key): void
+    {
+        $file = self::rateLimitFile($scope, $key);
+        if (is_file($file)) {
+            @unlink($file);
+        }
     }
 
     public static function isValidCpf(string $cpf): bool
@@ -151,5 +192,15 @@ class Security
         $rest = $sum % 11;
         $d2 = ($rest < 2) ? 0 : 11 - $rest;
         return (int)$cpf[10] === $d2;
+    }
+
+    private static function rateLimitFile(string $scope, string $key): string
+    {
+        $dir = STORAGE_PATH . DIRECTORY_SEPARATOR . 'ratelimit';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+        $hash = hash('sha256', $scope . '|' . $key);
+        return $dir . DIRECTORY_SEPARATOR . $hash . '.json';
     }
 }

@@ -1,11 +1,49 @@
 <?php
 class Auth
 {
-    public static function login(string $email, string $password): bool
+    public static function attemptLogin(string $email, string $password): array
     {
         $user = User::findByEmail($email);
-        if (!$user) { return false; }
-        if (!User::verifyPassword($user, $password)) { return false; }
+        if (!$user) {
+            return [
+                'ok' => false,
+                'reason' => 'user_not_found',
+                'message' => 'Usuário não encontrado para o e-mail informado.'
+            ];
+        }
+        if (empty($user->email_verified_at)) {
+            return [
+                'ok' => false,
+                'reason' => 'inactive_account',
+                'message' => 'Conta inativa. Solicite a reativação a um administrador.',
+                'user' => $user
+            ];
+        }
+        if (!User::verifyPassword($user, $password)) {
+            return [
+                'ok' => false,
+                'reason' => 'invalid_password',
+                'message' => 'Senha incorreta para o usuário informado.',
+                'user' => $user
+            ];
+        }
+        self::establishSession($user);
+        return [
+            'ok' => true,
+            'reason' => 'success',
+            'message' => 'Login realizado com sucesso.',
+            'user' => $user
+        ];
+    }
+
+    public static function login(string $email, string $password): bool
+    {
+        $attempt = self::attemptLogin($email, $password);
+        return (bool)($attempt['ok'] ?? false);
+    }
+
+    private static function establishSession(User $user): void
+    {
         $role = strtolower(trim((string)($user->role ?? '')));
         $isSupervisor = (int)($user->is_supervisor ?? 0) === 1;
         if ($role === '' && strtolower($user->email) === 'admin@ctprice.local') {
@@ -23,7 +61,6 @@ class Auth
         $_SESSION['user_name'] = $user->nome;
         $_SESSION['user_is_supervisor'] = $isSupervisor;
         session_regenerate_id(true);
-        return true;
     }
 
     public static function logout(): void

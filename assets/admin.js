@@ -46,29 +46,51 @@
     const btn = document.querySelector('.menu-toggle') || document.querySelector('[data-admin-menu-toggle="1"]');
     const sidebar = document.querySelector('[data-admin-sidebar="1"]') || document.querySelector('aside');
     const overlay = document.querySelector('[data-admin-overlay="1"]');
+    const closeTriggers = Array.from(document.querySelectorAll('[data-admin-menu-close="1"]'));
     if (!btn || !sidebar || !overlay) return;
+
+    const isMobileViewport = () => window.matchMedia('(max-width: 768px)').matches;
+
+    const syncState = (isOpen) => {
+      sidebar.classList.toggle('active', isOpen);
+      overlay.classList.toggle('open', isOpen);
+      document.body.classList.toggle('app-sidebar-open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      sidebar.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    };
+
     const open = () => {
-      sidebar.classList.add('active');
-      overlay.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
+      if (!isMobileViewport()) return;
+      syncState(true);
     };
+
     const close = () => {
-      sidebar.classList.remove('active');
-      overlay.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
+      syncState(false);
     };
+
     btn.addEventListener('click', () => {
       const expanded = btn.getAttribute('aria-expanded') === 'true';
       if (expanded) close(); else open();
     });
     overlay.addEventListener('click', close);
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 768) {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
+    closeTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        if (isMobileViewport()) {
+          close();
+        }
+      });
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        close();
       }
     });
+    window.addEventListener('resize', () => {
+      if (!isMobileViewport()) {
+        close();
+      }
+    });
+    close();
   };
 
   const initAiAnalyze = () => {

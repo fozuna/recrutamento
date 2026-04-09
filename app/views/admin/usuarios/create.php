@@ -1,7 +1,7 @@
 <?php
 $base = Config::app()['base_url'] ?? '';
 ?>
-<div class="max-w-xl bg-white shadow rounded p-6">
+<div class="responsive-panel max-w-xl">
   <h2 class="text-xl font-semibold text-ctpblue">Cadastrar novo usuário</h2>
   <?php if (!empty($error)): ?>
     <div class="mt-3 p-3 bg-red-50 text-red-700 border border-red-200 rounded text-sm">
@@ -36,9 +36,9 @@ $base = Config::app()['base_url'] ?? '';
         <option value="admin">Admin</option>
       </select>
     </div>
-    <div class="pt-2">
+    <div class="responsive-form-actions pt-2">
       <button type="submit" class="bg-ctgreen text-white px-4 py-2 rounded hover:bg-ctdark">Criar usuário</button>
-      <a href="<?= $base ?>/admin" class="ml-2 text-ctpblue hover:text-ctgreen">Voltar</a>
+      <a href="<?= $base ?>/admin" class="text-ctpblue hover:text-ctgreen">Voltar</a>
     </div>
   </form>
   <form class="mt-6 pt-4 border-t" method="post" action="<?= $base ?>/admin/usuarios/supervisor/garantir">

@@ -1,12 +1,12 @@
 <?php
 ?>
-<div class="bg-white shadow rounded p-6">
-  <div class="flex justify-between items-center">
+<div class="responsive-panel">
+  <div class="responsive-header">
       <h2 class="text-xl font-semibold text-ctpblue">Candidaturas</h2>
-      <a href="<?= $base ?>/admin/pipeline" class="text-sm bg-ctlight text-white px-3 py-1 rounded hover:bg-ctgreen">Ver Kanban</a>
+      <a href="<?= $base ?>/admin/pipeline" class="inline-flex items-center justify-center rounded-lg bg-ctlight px-4 py-3 text-sm font-medium text-white hover:bg-ctgreen">Ver Kanban</a>
   </div>
   
-  <form class="mt-4 grid md:grid-cols-4 gap-3" method="get">
+  <form class="responsive-form-grid-4 mt-4" method="get">
     <div>
       <label class="block text-sm font-medium text-gray-700">Vaga</label>
       <select name="vaga_id" class="mt-1 w-full border rounded px-3 py-2 text-sm">
@@ -33,15 +33,15 @@
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700">Até</label>
-      <div class="flex space-x-2">
-          <input type="date" name="data_ate" value="<?= Security::e($filters['data_ate'] ?? '') ?>" class="mt-1 w-full border rounded px-3 py-2 text-sm flex-1" />
-          <button class="bg-ctgreen text-white px-4 py-2 rounded hover:bg-ctdark text-sm">Filtrar</button>
+      <div class="mt-1 flex flex-col gap-2 sm:flex-row">
+          <input type="date" name="data_ate" value="<?= Security::e($filters['data_ate'] ?? '') ?>" class="w-full flex-1 border rounded px-3 py-2 text-sm" />
+          <button class="inline-flex items-center justify-center rounded-lg bg-ctgreen px-4 py-3 text-sm font-medium text-white hover:bg-ctdark">Filtrar</button>
       </div>
     </div>
   </form>
 
-  <div class="mt-6 overflow-x-auto">
-    <table class="min-w-full text-sm hidden md:table">
+  <div class="responsive-table-wrap mt-6">
+    <table class="mobile-table-desktop min-w-full text-sm">
       <thead class="bg-gray-50">
         <tr class="border-b">
           <th class="text-left p-3 font-medium text-gray-500">#</th>
@@ -77,9 +77,11 @@
                 </span>
             </td>
             <td class="p-3 text-gray-500"><?= date('d/m/Y H:i', strtotime($c['created_at'])) ?></td>
-            <td class="p-3 space-x-2">
-              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Detalhes</a>
-              <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/download" class="text-gray-600 hover:text-gray-900">PDF</a>
+            <td class="p-3">
+              <div class="responsive-card-actions">
+                <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-ctgreen hover:text-ctdark font-medium">Detalhes</a>
+                <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/download" class="text-gray-600 hover:text-gray-900">PDF</a>
+              </div>
             </td>
             <td class="p-3">
               <?php $canToggleIndicacao = in_array((string)Auth::role(), ['admin', 'rh'], true); ?>
@@ -93,7 +95,7 @@
                 </label>
               </form>
               <?php if ((int)($c['indicacao_colaborador'] ?? 0) === 1 && !empty($c['indicacao_colaborador_nome'])): ?>
-                <div class="text-xs text-gray-500 mt-1 text-center truncate max-w-[180px]" title="<?= Security::e($c['indicacao_colaborador_nome']) ?>">
+                <div class="mt-1 max-w-full text-center text-xs text-gray-500" title="<?= Security::e($c['indicacao_colaborador_nome']) ?>">
                   <?= Security::e($c['indicacao_colaborador_nome']) ?>
                 </div>
               <?php endif; ?>
@@ -107,10 +109,10 @@
         <?php endif; ?>
       </tbody>
     </table>
-    <div class="md:hidden space-y-3">
+    <div class="responsive-card-list md:hidden">
       <?php foreach ($candidaturas as $c): ?>
-        <div class="bg-white border rounded p-3 shadow-sm">
-          <div class="flex justify-between items-start">
+        <div class="responsive-card">
+          <div class="responsive-card-row items-start">
             <div>
               <div class="text-sm font-semibold text-gray-900"><?= Security::e($c['nome']) ?></div>
               <div class="text-xs text-gray-500"><?= Security::e($c['email']) ?></div>
@@ -121,16 +123,16 @@
               <?= Security::e($c['stage_nome'] ?? 'Novo') ?>
             </span>
           </div>
-          <div class="flex justify-between items-center mt-2">
+          <div class="responsive-card-row mt-3">
             <div class="text-xs text-gray-500"><?= date('d/m/Y H:i', strtotime($c['created_at'])) ?></div>
-            <div class="text-xs space-x-2">
+            <div class="responsive-card-actions text-xs">
               <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>" class="text-ctgreen font-medium">Detalhes</a>
               <a href="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/download" class="text-gray-600">PDF</a>
             </div>
           </div>
           <div class="mt-2">
             <?php $canToggleIndicacao = in_array((string)Auth::role(), ['admin', 'rh'], true); ?>
-            <form action="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/indicacao" method="post" class="flex items-center justify-between gap-2" data-indicacao-form="<?= (int)$c['id'] ?>">
+            <form action="<?= $base ?>/admin/candidaturas/<?= (int)$c['id'] ?>/indicacao" method="post" class="responsive-card-row items-center" data-indicacao-form="<?= (int)$c['id'] ?>">
               <input type="hidden" name="csrf" value="<?= Security::e($csrf ?? '') ?>">
               <input type="hidden" name="indicacao_colaborador" value="0">
               <input type="hidden" name="indicacao_colaborador_nome" value="<?= Security::e($c['indicacao_colaborador_nome'] ?? '') ?>" data-indicacao-nome-hidden="<?= (int)$c['id'] ?>">
@@ -160,7 +162,7 @@
       <input id="indicacao-colaborador-input" type="text" class="mt-1 w-full border rounded px-3 py-2 text-sm" placeholder="Ex.: João da Silva">
       <p id="indicacao-colaborador-erro" class="text-red-600 text-xs mt-1 hidden">Informe o nome do colaborador.</p>
     </div>
-    <div class="mt-4 flex justify-end gap-2">
+    <div class="responsive-form-actions mt-4 justify-end">
       <button type="button" id="indicacao-cancelar" class="px-4 py-2 border rounded text-sm text-gray-600 hover:bg-gray-50">Cancelar</button>
       <button type="button" id="indicacao-confirmar" class="px-4 py-2 rounded text-sm text-white bg-ctgreen hover:bg-ctdark">Salvar</button>
     </div>

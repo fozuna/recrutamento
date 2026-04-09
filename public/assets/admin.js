@@ -42,6 +42,61 @@
     });
   };
 
+  const initAdminDrawer = () => {
+    const btn = document.querySelector('.menu-toggle') || document.querySelector('[data-admin-menu-toggle="1"]');
+    const sidebar = document.querySelector('[data-admin-sidebar="1"]') || document.querySelector('aside');
+    const overlay = document.querySelector('[data-admin-overlay="1"]');
+    const closeTriggers = Array.from(document.querySelectorAll('[data-admin-menu-close="1"]'));
+    if (!btn || !sidebar || !overlay) return;
+
+    const isMobileViewport = () => window.matchMedia('(max-width: 768px)').matches;
+
+    const syncState = (isOpen) => {
+      sidebar.classList.toggle('active', isOpen);
+      overlay.classList.toggle('open', isOpen);
+      document.body.classList.toggle('app-sidebar-open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      sidebar.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    };
+
+    const open = () => {
+      if (!isMobileViewport()) return;
+      syncState(true);
+    };
+
+    const close = () => {
+      syncState(false);
+    };
+
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        close();
+      } else {
+        open();
+      }
+    });
+    overlay.addEventListener('click', close);
+    closeTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        if (isMobileViewport()) {
+          close();
+        }
+      });
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        close();
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (!isMobileViewport()) {
+        close();
+      }
+    });
+    close();
+  };
+
   const initAiAnalyze = () => {
     const btn = document.querySelector('[data-ai-analyze="1"]');
     if (!btn) return;
@@ -162,6 +217,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     initAutoSubmit();
     initConfirmations();
+    initAdminDrawer();
     initAiAnalyze();
     initKanban();
   });

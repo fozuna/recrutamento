@@ -1,20 +1,23 @@
-<div class="flex justify-between items-center mb-4 px-2">
-    <h1 class="text-2xl font-bold text-gray-800">Pipeline de Seleção</h1>
-    
-    <form method="GET" action="<?= $base ?>/admin/pipeline" class="hidden md:flex items-center space-x-2">
-        <label for="vaga_id" class="text-sm font-medium text-gray-700">Filtrar por Vaga:</label>
-        <select name="vaga_id" id="vaga_id" data-autosubmit="1" class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ctgreen">
-            <option value="">Todas as Vagas</option>
-            <?php foreach ($vagas as $v): ?>
-                <option value="<?= $v['id'] ?>" <?= ($selectedVaga == $v['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($v['titulo']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+<div class="responsive-panel">
+  <div class="responsive-header mb-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-800 sm:text-3xl">Pipeline de Seleção</h1>
+      <p class="mt-1 text-sm text-gray-500">Arraste os cards sem comprometer o layout em telas pequenas.</p>
+    </div>
+    <form method="GET" action="<?= $base ?>/admin/pipeline" class="w-full max-w-full md:w-auto">
+      <label for="vaga_id" class="mb-2 block text-sm font-medium text-gray-700">Filtrar por vaga</label>
+      <select name="vaga_id" id="vaga_id" data-autosubmit="1" class="w-full rounded-lg border border-gray-300 px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ctgreen md:min-w-[18rem]">
+        <option value="">Todas as Vagas</option>
+        <?php foreach ($vagas as $v): ?>
+          <option value="<?= $v['id'] ?>" <?= ($selectedVaga == $v['id']) ? 'selected' : '' ?>>
+            <?= htmlspecialchars($v['titulo']) ?>
+          </option>
+        <?php endforeach; ?>
+      </select>
     </form>
-</div>
+  </div>
 
-<div class="flex overflow-x-auto pb-4 space-x-4 h-[calc(100vh-14rem)] md:h-[calc(100vh-12rem)]">
+  <div class="kanban-board min-h-[26rem] md:min-h-[36rem]">
     <?php foreach ($kanban as $stageId => $col): ?>
         <?php
         $borderColor = $col['stage']['cor'] ?? '#cccccc';
@@ -23,19 +26,19 @@
             $borderColor = '#1d2d44';
         }
         ?>
-        <div class="flex-shrink-0 w-72 md:w-80 lg:w-96 bg-gray-100 rounded-lg shadow-sm flex flex-col h-full border-t-4 snap-start" data-kanban-board-column="1" style="border-color: <?= $borderColor ?>">
-            <div class="p-3 bg-white rounded-t border-b flex justify-between items-center sticky top-0 z-10">
+        <div class="kanban-column-shell flex h-full flex-col rounded-xl border-t-4 bg-gray-100 shadow-sm" data-kanban-board-column="1" style="border-color: <?= $borderColor ?>">
+            <div class="sticky top-0 z-10 flex items-center justify-between rounded-t-xl border-b bg-white p-3">
                 <h3 class="font-semibold text-gray-700"><?= htmlspecialchars($col['stage']['nome']) ?></h3>
                 <span class="bg-gray-200 text-gray-600 text-xs px-2 py-1 rounded-full" data-kanban-count="1"><?= count($col['items']) ?></span>
             </div>
             
-            <div class="p-2 flex-1 overflow-y-auto space-y-3 kanban-column" data-kanban-column="1" data-stage-id="<?= $stageId ?>">
+            <div class="kanban-column flex-1 space-y-3 overflow-y-auto p-2" data-kanban-column="1" data-stage-id="<?= $stageId ?>">
                  
                 <?php foreach ($col['items'] as $c): ?>
-                    <div class="bg-white p-3 rounded shadow-sm border border-gray-200 cursor-move hover:shadow-md transition-shadow group relative" data-kanban-card="1" draggable="true" id="cand-<?= $c['id'] ?>" data-cand-id="<?= $c['id'] ?>">
+                    <div class="group relative cursor-move rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-shadow hover:shadow-md" data-kanban-card="1" draggable="true" id="cand-<?= $c['id'] ?>" data-cand-id="<?= $c['id'] ?>">
                         
                         <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-medium text-gray-900 text-sm truncate w-full" title="<?= htmlspecialchars($c['nome']) ?>">
+                            <h4 class="w-full truncate text-sm font-medium text-gray-900" title="<?= htmlspecialchars($c['nome']) ?>">
                                 <?= htmlspecialchars($c['nome']) ?>
                             </h4>
                         </div>
@@ -45,8 +48,8 @@
                             <?= htmlspecialchars($c['vaga_titulo'] ?? 'Vaga não encontrada') ?>
                         </p>
                         
-                        <div class="flex justify-between items-center mt-3">
-                            <a href="<?= $base ?>/admin/candidaturas/<?= $c['id'] ?>" class="text-xs text-ctgreen hover:text-ctdark hover:underline">Ver detalhes</a>
+                        <div class="mt-3 flex items-center justify-between gap-3">
+                            <a href="<?= $base ?>/admin/candidaturas/<?= $c['id'] ?>" class="text-xs font-medium text-ctgreen hover:text-ctdark hover:underline">Ver detalhes</a>
                             <span class="text-xs text-gray-400"><?= date('d/m', strtotime($c['created_at'])) ?></span>
                         </div>
                     </div>
@@ -55,4 +58,5 @@
             </div>
         </div>
     <?php endforeach; ?>
+  </div>
 </div>
